@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: tibs
+Version: 0.1.0
+Summary: Computational tools for exploring dynamical regimes in biological systems
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+
+# thinking-in-biological-systems
+Computational tools for exploring dynamical regimes in biological systems using simulation and interpretable machine learning.
+The focus is on:
+- Simulating simplified biological processes
+- Extracting interpretable features from time-series data
+- Identifying and classifying dynamic regimes
+- Connecting observed dynamics to underlying biological constraints
+
+All examples use synthetic or public data and are intended to develop
+transferable intuition relevant to neuroscience, genetics, protein
+engineering, evolution, and automated experimentation.
