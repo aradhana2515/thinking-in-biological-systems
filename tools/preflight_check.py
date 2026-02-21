@@ -15,8 +15,8 @@ What it does:
 
 from __future__ import annotations
 
-import sys
 import os
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -71,9 +71,7 @@ def main() -> None:
 
         ok("Import succeeded: tibs.features.timeseries (auc, peak, time_to_halfmax)")
     except Exception:
-        print(
-            "⚠️  Could not import tibs.features.timeseries; feature checks will be skipped."
-        )
+        print("⚠️  Could not import tibs.features.timeseries; feature checks will be skipped.")
         auc = peak = time_to_halfmax = None
 
     # ---------- 2) Single SSA run ----------
@@ -104,9 +102,7 @@ def main() -> None:
     # ---------- 3) Plot single trajectory ----------
     if plt is not None:
         try:
-            y = model.observe(
-                x.T, model.parameters()
-            )  # some observe implementations assume x
+            y = model.observe(x.T, model.parameters())  # some observe implementations assume x
         except Exception:
             # most likely observe expects a single state vector, so just use protein col
             y = x[:, -1]
@@ -163,9 +159,7 @@ def main() -> None:
         else:
             ok("Reproducibility check passed (same seed -> identical trajectory).")
     except TypeError:
-        print(
-            "⚠️  gillespie() does not accept rng; skipping strict reproducibility check."
-        )
+        print("⚠️  gillespie() does not accept rng; skipping strict reproducibility check.")
     except Exception as e:
         print(f"⚠️  Reproducibility check error (skipping): {e}")
 
@@ -178,9 +172,7 @@ def main() -> None:
             return model.rhs(t, x, p)
 
         t_eval = np.linspace(0, 100, 500)
-        sol = solve_ivp(
-            rhs, (0, 100), model.initial_state(), t_eval=t_eval, rtol=1e-6, atol=1e-9
-        )
+        sol = solve_ivp(rhs, (0, 100), model.initial_state(), t_eval=t_eval, rtol=1e-6, atol=1e-9)
         if not sol.success:
             fail(f"ODE solver failed: {sol.message}")
 
@@ -229,22 +221,14 @@ def main() -> None:
             )
             if rel_err > 0.30:
                 print("⚠️  ODE vs SSA mean mismatch > 30%.")
-                print(
-                    "    This might be fine if your parameters produce slow convergence,"
-                )
+                print("    This might be fine if your parameters produce slow convergence,")
                 print("    or if your observe() differs from protein count.")
             else:
-                ok(
-                    "ODE vs SSA ensemble mean agreement looks reasonable (<30% at final time)."
-                )
+                ok("ODE vs SSA ensemble mean agreement looks reasonable (<30% at final time).")
     else:
-        print(
-            "⚠️  Skipping ODE vs SSA ensemble check (need scipy + matplotlib + run_ensemble)."
-        )
+        print("⚠️  Skipping ODE vs SSA ensemble check (need scipy + matplotlib + run_ensemble).")
 
-    print(
-        "\n🎉 Preflight complete. If you got mostly ✅ and only a few ⚠️, you're good to push.\n"
-    )
+    print("\n🎉 Preflight complete. If you got mostly ✅ and only a few ⚠️, you're good to push.\n")
 
 
 if __name__ == "__main__":
