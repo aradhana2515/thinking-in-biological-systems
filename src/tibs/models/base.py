@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
-
+from dataclasses import dataclass
+from typing import Dict, Tuple, Optional
+import numpy as np
+import matplotlib.pyplot as plt
 
 class Model(ABC):
     """
@@ -36,9 +39,6 @@ class Model(ABC):
         return x
 
 
-from dataclasses import dataclass
-from typing import Dict, Tuple, Optional
-import numpy as np
 
 
 Params = Dict[str, float]
@@ -126,7 +126,7 @@ class ODEModel(Model):
         return out
 
     def plot(self, res: SimResult):
-        import matplotlib.pyplot as plt
+        
 
         plt.figure()
         names = res.names if res.names else tuple(f"x{i}" for i in range(res.x.shape[1]))
