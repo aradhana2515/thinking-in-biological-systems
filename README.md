@@ -1,3 +1,6 @@
+[![CI](https://github.com/aradhana2515/thinking-in-biological-systems/actions/workflows/ci.yml/badge.svg)](https://github.com/aradhana2515/thinking-in-biological-systems/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 # Thinking in Biological Systems
 
 A lightweight Python toolkit for exploring qualitative dynamical regimes in biological models.
