@@ -1,4 +1,3 @@
-# src/tibs/models/repressilator.py
 import numpy as np
 from .base import ODEModel
 
@@ -14,9 +13,7 @@ class Repressilator(ODEModel):
     def rhs(self, t, x, params):
         X, Y, Z = x
         alpha, n, k = params["alpha"], params["n"], params["k"]
-
         dX = alpha / (1.0 + Z**n) - k * X
         dY = alpha / (1.0 + X**n) - k * Y
         dZ = alpha / (1.0 + Y**n) - k * Z
-
         return np.array([dX, dY, dZ], dtype=float)
