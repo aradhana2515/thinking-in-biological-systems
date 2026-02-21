@@ -1,4 +1,6 @@
 # thinking-in-biological-systems
+
+![CI](https://github.com/aradhana2515/thinking-in-biological-systems/actions/workflows/ci.yml/badge.svg)
 Computational tools for exploring dynamical regimes in biological systems using simulation and interpretable machine learning.
 The focus is on:
 - Simulating simplified biological processes
