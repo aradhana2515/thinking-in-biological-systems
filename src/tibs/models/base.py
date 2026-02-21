@@ -1,13 +1,11 @@
-
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Dict, Optional, Tuple
 
 import numpy as np
 
-Params = Dict[str, float]
+Params = dict[str, float]
 
 
 class Model(ABC):
@@ -47,7 +45,7 @@ class Model(ABC):
 class SimResult:
     t: np.ndarray
     x: np.ndarray
-    names: Tuple[str, ...]
+    names: tuple[str, ...]
 
 
 class ODEModel(Model):
@@ -57,7 +55,7 @@ class ODEModel(Model):
     - Adds a dependency-free RK4 simulator + helpers.
     """
 
-    names: Tuple[str, ...] = ()
+    names: tuple[str, ...] = ()
 
     def stoichiometry(self):
         raise NotImplementedError("This model is ODE-only (no stoichiometry / SSA).")
@@ -69,8 +67,8 @@ class ODEModel(Model):
         self,
         t_span=(0.0, 50.0),
         dt=0.01,
-        x0: Optional[np.ndarray] = None,
-        params: Optional[Params] = None,
+        x0: np.ndarray | None = None,
+        params: Params | None = None,
     ) -> SimResult:
         p: Params = self.parameters()
         if params is not None:

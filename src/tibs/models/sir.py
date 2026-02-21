@@ -13,9 +13,9 @@ class SIR(ODEModel):
         return dict(beta=0.35, gamma=0.1, N=1.0)
 
     def rhs(self, t, x, params):
-        S, I, R = x
+        S, I_, R = x
         beta, gamma, N = params["beta"], params["gamma"], params["N"]
-        dS = -beta * S * I / N
-        dI = beta * S * I / N - gamma * I
-        dR = gamma * I
+        dS = -beta * S * I_ / N
+        dI = beta * S * I_ / N - gamma * I_
+        dR = gamma * I_
         return np.array([dS, dI, dR], dtype=float)
