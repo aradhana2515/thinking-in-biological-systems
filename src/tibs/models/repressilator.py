@@ -11,7 +11,7 @@ class Repressilator(DynamicalSystem):
     def default_initial_state(self, p: Params) -> np.ndarray:
         return np.array([0.1, 0.2, 0.3], dtype=float)
 
-    def rhs(self, x, t, p):
+    def rhs(self, t, x, params):
         X, Y, Z = x
         alpha, n, k = p["alpha"], p["n"], p["k"]
         dX = alpha/(1.0 + Z**n) - k*X
