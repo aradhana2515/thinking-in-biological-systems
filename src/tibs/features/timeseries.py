@@ -4,7 +4,7 @@ import numpy as np
 def auc(t, y):
     t = np.asarray(t, dtype=float)
     y = np.asarray(y, dtype=float)
-    return float(np.trapz(y, t))
+    return float(np.trapezoid(y, t))
 
 
 def peak(y):
