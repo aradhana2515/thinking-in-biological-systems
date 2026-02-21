@@ -1,5 +1,7 @@
 import numpy as np
+
 from .base import ODEModel
+
 
 class SIR(ODEModel):
     names = ("S", "I", "R")
@@ -14,6 +16,6 @@ class SIR(ODEModel):
         S, I, R = x
         beta, gamma, N = params["beta"], params["gamma"], params["N"]
         dS = -beta * S * I / N
-        dI =  beta * S * I / N - gamma * I
-        dR =  gamma * I
+        dI = beta * S * I / N - gamma * I
+        dR = gamma * I
         return np.array([dS, dI, dR], dtype=float)

@@ -1,7 +1,8 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from tibs.models import Repressilator
+import numpy as np
+
 from tibs.analysis import classify_timeseries
+from tibs.models import Repressilator
 
 alphas = np.linspace(1, 30, 25)
 ns = np.linspace(1, 4, 20)

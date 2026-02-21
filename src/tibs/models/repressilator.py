@@ -1,5 +1,7 @@
 import numpy as np
+
 from .base import ODEModel
+
 
 class Repressilator(ODEModel):
     names = ("x", "y", "z")

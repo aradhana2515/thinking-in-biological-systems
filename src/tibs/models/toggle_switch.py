@@ -1,5 +1,7 @@
 import numpy as np
+
 from .base import ODEModel
+
 
 class ToggleSwitch(ODEModel):
     names = ("u", "v")
@@ -16,5 +18,5 @@ class ToggleSwitch(ODEModel):
         n, m = params["n"], params["m"]
         ku, kv = params["ku"], params["kv"]
         du = alpha / (1.0 + v**n) - ku * u
-        dv = beta  / (1.0 + u**m) - kv * v
+        dv = beta / (1.0 + u**m) - kv * v
         return np.array([du, dv], dtype=float)

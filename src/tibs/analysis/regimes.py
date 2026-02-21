@@ -1,17 +1,22 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
+
 import numpy as np
+
 
 @dataclass(frozen=True)
 class RegimeResult:
-    label: str                 # "steady" | "oscillatory" | "blowup" | "other"
-    score: float               # confidence-ish (bigger = more of that label)
-    details: dict              # debug info (var, turns, etc.)
+    label: str  # "steady" | "oscillatory" | "blowup" | "other"
+    score: float  # confidence-ish (bigger = more of that label)
+    details: dict  # debug info (var, turns, etc.)
+
 
 def _dominant_dim(y: np.ndarray) -> int:
     # choose dimension with largest variance after transient
     v = np.var(y, axis=0)
     return int(np.argmax(v)) if y.shape[1] > 1 else 0
+
 
 def classify_timeseries(
     x: np.ndarray,
@@ -40,7 +45,9 @@ def classify_timeseries(
         return RegimeResult("blowup", 1.0, {"reason": "nonfinite"})
     max_abs = float(np.max(np.abs(x)))
     if max_abs > blowup_thresh:
-        return RegimeResult("blowup", max_abs / blowup_thresh, {"reason": "threshold", "max_abs": max_abs})
+        return RegimeResult(
+            "blowup", max_abs / blowup_thresh, {"reason": "threshold", "max_abs": max_abs}
+        )
 
     # --- drop transient ---
     T = x.shape[0]
@@ -53,7 +60,11 @@ def classify_timeseries(
     if mean_var < steady_var_thresh:
         # smaller variance -> more confident steady
         score = float(steady_var_thresh / max(mean_var, 1e-12))
-        return RegimeResult("steady", score, {"mean_var": mean_var, "var_per_dim": var_per_dim.tolist(), "start": start})
+        return RegimeResult(
+            "steady",
+            score,
+            {"mean_var": mean_var, "var_per_dim": var_per_dim.tolist(), "start": start},
+        )
 
     # --- oscillation check (turning points + amplitude) ---
     j = _dominant_dim(y)
@@ -74,11 +85,25 @@ def classify_timeseries(
         return RegimeResult(
             "oscillatory",
             score,
-            {"turns": turns, "rel_amp": rel_amp, "amp": amp, "dim": j, "mean_var": mean_var, "start": start},
+            {
+                "turns": turns,
+                "rel_amp": rel_amp,
+                "amp": amp,
+                "dim": j,
+                "mean_var": mean_var,
+                "start": start,
+            },
         )
 
     return RegimeResult(
         "other",
         float(turns) * rel_amp,
-        {"turns": turns, "rel_amp": rel_amp, "amp": amp, "dim": j, "mean_var": mean_var, "start": start},
+        {
+            "turns": turns,
+            "rel_amp": rel_amp,
+            "amp": amp,
+            "dim": j,
+            "mean_var": mean_var,
+            "start": start,
+        },
     )
