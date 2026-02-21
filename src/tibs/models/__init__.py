@@ -3,5 +3,11 @@ from .toggle_switch import ToggleSwitch
 from .repressilator import Repressilator
 from .sir import SIR
 
-__all__ = ["Model", "ODEModel", "SimResult", "ToggleSwitch"]
-
+__all__ = [
+    "Model",
+    "ODEModel",
+    "SimResult",
+    "ToggleSwitch",
+    "Repressilator",
+    "SIR",
+]
