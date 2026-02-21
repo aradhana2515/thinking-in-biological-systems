@@ -12,7 +12,7 @@ class SIR(DynamicalSystem):
         # normalized population
         return np.array([0.99, 0.01, 0.0], dtype=float)
 
-    def rhs(self, x, t, p):
+    def rhs(self, t, x, params):
         S, I, R = x
         beta, gamma, N = p["beta"], p["gamma"], p["N"]
         dS = -beta * S * I / N
