@@ -1,47 +1,46 @@
+
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Dict, Tuple, Optional
+from typing import Dict, Optional, Tuple
+
 import numpy as np
-import matplotlib.pyplot as plt
+
+Params = Dict[str, float]
+
 
 class Model(ABC):
-    """
-    Base class for mechanistic biological models.
-    """
+    """Base class for mechanistic biological models."""
 
     @abstractmethod
     def initial_state(self):
         """Return initial state vector."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
-    def parameters(self):
+    def parameters(self) -> Params:
         """Return dict of model parameters."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def stoichiometry(self):
         """Return stoichiometry matrix (N_species x N_reactions)."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
-    def propensities(self, x, t, params):
+    def propensities(self, x, t, params: Params):
         """Return reaction propensities for Gillespie."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
-    def rhs(self, t, x, params):
+    def rhs(self, t, x, params: Params):
         """ODE right-hand side."""
-        pass
+        raise NotImplementedError
 
-    def observe(self, x, params):
+    def observe(self, x, params: Params):
         """Map internal state to observable (e.g. luminescence)."""
         return x
-
-
-
-
-Params = Dict[str, float]
 
 
 @dataclass
@@ -60,25 +59,12 @@ class ODEModel(Model):
 
     names: Tuple[str, ...] = ()
 
-    # ---- ODE interface aliases (match your current style) ----
-    def initial_state(self):
-        raise NotImplementedError
-
-    def parameters(self):
-        raise NotImplementedError
-
-    # ---- SSA methods: explicitly unsupported for pure ODE models ----
     def stoichiometry(self):
         raise NotImplementedError("This model is ODE-only (no stoichiometry / SSA).")
 
-    def propensities(self, x, t, params):
+    def propensities(self, x, t, params: Params):
         raise NotImplementedError("This model is ODE-only (no propensities / SSA).")
 
-    # NOTE: your rhs signature is rhs(self, t, x, params) — we keep that.
-    def rhs(self, t, x, params):
-        raise NotImplementedError
-
-    # ---- Deterministic simulation ----
     def simulate(
         self,
         t_span=(0.0, 50.0),
@@ -86,7 +72,7 @@ class ODEModel(Model):
         x0: Optional[np.ndarray] = None,
         params: Optional[Params] = None,
     ) -> SimResult:
-        p = self.parameters()
+        p: Params = self.parameters()
         if params is not None:
             p = dict(p, **params)
 
@@ -105,16 +91,13 @@ class ODEModel(Model):
         X = np.zeros((n, x.size), dtype=float)
         X[0] = x
 
-        # RK4 integrator
         for i in range(n - 1):
             ti = t[i]
             xi = X[i]
-
             k1 = np.asarray(self.rhs(ti, xi, p), dtype=float)
             k2 = np.asarray(self.rhs(ti + 0.5 * dt, xi + 0.5 * dt * k1, p), dtype=float)
             k3 = np.asarray(self.rhs(ti + 0.5 * dt, xi + 0.5 * dt * k2, p), dtype=float)
             k4 = np.asarray(self.rhs(ti + dt, xi + dt * k3, p), dtype=float)
-
             X[i + 1] = xi + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
 
         return SimResult(t=t, x=X, names=getattr(self, "names", tuple()))
@@ -126,7 +109,7 @@ class ODEModel(Model):
         return out
 
     def plot(self, res: SimResult):
-        
+        import matplotlib.pyplot as plt
 
         plt.figure()
         names = res.names if res.names else tuple(f"x{i}" for i in range(res.x.shape[1]))
