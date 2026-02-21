@@ -15,7 +15,6 @@ class ToggleSwitch(ODEModel):
         alpha, beta = params["alpha"], params["beta"]
         n, m = params["n"], params["m"]
         ku, kv = params["ku"], params["kv"]
-
         du = alpha / (1.0 + v**n) - ku * u
         dv = beta  / (1.0 + u**m) - kv * v
         return np.array([du, dv], dtype=float)
