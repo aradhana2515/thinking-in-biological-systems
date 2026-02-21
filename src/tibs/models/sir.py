@@ -1,20 +1,19 @@
 # src/tibs/models/sir.py
 import numpy as np
-from .base import DynamicalSystem, Params
+from .base import ODEModel
 
-class SIR(DynamicalSystem):
+class SIR(ODEModel):
     names = ("S", "I", "R")
 
-    def default_params(self) -> Params:
-        return dict(beta=0.35, gamma=0.1, N=1.0)
-
-    def default_initial_state(self, p: Params) -> np.ndarray:
-        # normalized population
+    def initial_state(self):
         return np.array([0.99, 0.01, 0.0], dtype=float)
+
+    def parameters(self):
+        return dict(beta=0.35, gamma=0.1, N=1.0)
 
     def rhs(self, t, x, params):
         S, I, R = x
-        beta, gamma, N = p["beta"], p["gamma"], p["N"]
+        beta, gamma, N = params["beta"], params["gamma"], params["N"]
         dS = -beta * S * I / N
         dI =  beta * S * I / N - gamma * I
         dR =  gamma * I
