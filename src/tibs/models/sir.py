@@ -1,4 +1,3 @@
-# src/tibs/models/sir.py
 import numpy as np
 from .base import ODEModel
 
