@@ -1,95 +1,175 @@
 [![CI](https://github.com/aradhana2515/thinking-in-biological-systems/actions/workflows/ci.yml/badge.svg)](https://github.com/aradhana2515/thinking-in-biological-systems/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-# Thinking in Biological Systems
+# thinking-in-biological-systems
 
-A lightweight Python toolkit for exploring qualitative dynamical regimes in biological models.
+Computational tools for simulating and analyzing dynamical regimes in
+biological systems using interpretable machine learning.
 
-Small parameter changes can induce large qualitative shifts: steady states, oscillations, or runaway dynamics.
-This repository provides minimal, transparent tools to simulate and classify those transitions.
+This repository is designed to build mechanistic intuition from
+time-series data by combining:
 
-## Install
+-   Dynamical system simulation\
+-   Feature extraction from trajectories\
+-   Regime classification using interpretable ML\
+-   Mechanistic reasoning about biological constraints
 
-```
+The emphasis is not on black-box prediction, but on understanding how
+dynamic behaviors emerge from underlying rules.
+
+------------------------------------------------------------------------
+
+## Motivation
+
+Biological systems are inherently dynamic. They oscillate, bifurcate,
+stabilize, collapse, and evolve.
+
+Examples include:
+
+-   Gene regulatory networks\
+-   Evolutionary selection dynamics\
+-   Neural activity regimes\
+-   Protein interaction feedback circuits\
+-   Automated closed-loop experimentation
+
+This repository provides a structured sandbox for:
+
+1.  Generating synthetic dynamical data\
+2.  Extracting interpretable features\
+3.  Classifying regimes (stable, oscillatory, bistable, etc.)\
+4.  Connecting statistical signatures back to mechanism
+
+All examples use synthetic or public data to develop transferable
+intuition.
+
+------------------------------------------------------------------------
+
+## Repository Structure
+
+    src/tibs/
+        models/          # Mechanistic biological models
+        simulators/      # Trajectory generation and ensemble simulation
+        features/        # Time-series feature extraction
+        ml/              # Interpretable ML classifiers
+    examples/            # Example workflows
+    tools/               # Utility scripts
+    tests/               # Unit tests
+
+------------------------------------------------------------------------
+
+## Installation
+
+Clone the repository:
+
+``` bash
 git clone https://github.com/aradhana2515/thinking-in-biological-systems.git
 cd thinking-in-biological-systems
-
-python -m venv .venv
-source .venv/bin/activate
-
-python -m pip install -e .
-python -m pip install matplotlib
 ```
 
-## Qick Example
+Create a clean environment:
 
-```
-from tibs.models import Repressilator
-
-m = Repressilator()
-res = m.simulate(t_span=(0, 80), dt=0.02)
-m.plot(res)
+``` bash
+conda create -n tibs python=3.10 -y
+conda activate tibs
 ```
 
-## Model Zoo
+Install in editable mode:
 
-- ToggleSwitch — bistability
-- Repressilator — sustained oscillations
-- SIR — epidemic threshold dynamics
-
-All models subclass `ODEModel` and expose:
-
-- `simulate()`
-- `sweep()`
-- `plot()`
-
-## Regime Classification
-
-Automatically label time-series behavior:
-```
-from tibs.analysis import classify_timeseries
-from tibs.models import Repressilator
-
-m = Repressilator()
-res = m.simulate(t_span=(0, 80), dt=0.02)
-
-print(classify_timeseries(res.x))
+``` bash
+pip install -e .
 ```
 
-Returns one of:
+Verify installation:
 
-- `steady`
-- `oscillatory`
-- `blowup`
-- `other`
-
-## Regime Maps
-
-Explore qualitative transitions across parameter space:
-
-```
-python examples/repressilator_regime_map.py
+``` bash
+pytest -q
 ```
 
-This generates a heatmap of dynamical regimes as parameters vary.
+------------------------------------------------------------------------
 
-## Design Principles
+## Quick Demo
 
-- Minimal dependencies
-- Explicit numerical methods (RK4 integrator)
-- Small, readable model definitions
-- Emphasis on qualitative behavior
+Run a basic simulation:
 
-## Extending
+``` python
+from tibs.models.gene_expression import GeneExpressionModel
+from tibs.simulators.ensemble import run_ensemble
 
-Add a new model by subclassing 'ODEModel' and implementing:
+model = GeneExpressionModel()
+results = run_ensemble(model, n_runs=10)
 
-```
-initial_state()
-parameters()
-rhs(t, x, params)
+print(results.summary())
 ```
 
-## License
+Or run a basic check:
 
-MIT
+``` bash
+python tools/preflight_check.py
+```
+
+------------------------------------------------------------------------
+
+## Core Concepts
+
+### Mechanistic Simulation
+
+Models are defined as explicit dynamical systems (ODE-based or
+discrete-time approximations). Parameters can be varied to explore
+regime transitions.
+
+### Time-Series Feature Extraction
+
+Trajectories are converted into interpretable descriptors such as:
+
+-   Amplitude\
+-   Frequency\
+-   Stability metrics\
+-   Peak statistics\
+-   Convergence behavior
+
+### Interpretable Machine Learning
+
+Regime classification uses transparent models (e.g., logistic
+regression, decision trees) to map feature space to dynamical
+categories.
+
+The focus is on understanding which features drive classification
+decisions.
+
+------------------------------------------------------------------------
+
+## Intended Applications
+
+-   Systems biology\
+-   Neuroscience dynamics\
+-   Evolutionary modeling\
+-   Protein engineering feedback systems\
+-   Closed-loop automated experimentation
+
+The framework is designed to be extensible to real experimental
+time-series data.
+
+------------------------------------------------------------------------
+
+## Development
+
+Format code:
+
+``` bash
+ruff check . --fix
+ruff format .
+```
+
+Run tests:
+
+``` bash
+pytest
+```
+
+------------------------------------------------------------------------
+
+## Author
+
+Aradhana\
+PhD Student, Biomedical Engineering\
+Duke University
