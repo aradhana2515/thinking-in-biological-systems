@@ -9,9 +9,9 @@ biological systems using interpretable machine learning.
 This repository is designed to build mechanistic intuition from
 time-series data by combining:
 
--   Dynamical system simulation\
--   Feature extraction from trajectories\
--   Regime classification using interpretable ML\
+-   Dynamical system simulation
+-   Feature extraction from trajectories
+-   Regime classification using interpretable ML
 -   Mechanistic reasoning about biological constraints
 
 The emphasis is not on black-box prediction, but on understanding how
@@ -26,17 +26,17 @@ stabilize, collapse, and evolve.
 
 Examples include:
 
--   Gene regulatory networks\
--   Evolutionary selection dynamics\
--   Neural activity regimes\
--   Protein interaction feedback circuits\
+-   Gene regulatory networks
+-   Evolutionary selection dynamics
+-   Neural activity regimes
+-   Protein interaction feedback circuits
 -   Automated closed-loop experimentation
 
 This repository provides a structured sandbox for:
 
-1.  Generating synthetic dynamical data\
-2.  Extracting interpretable features\
-3.  Classifying regimes (stable, oscillatory, bistable, etc.)\
+1.  Generating synthetic dynamical data
+2.  Extracting interpretable features
+3.  Classifying regimes (stable, oscillatory, bistable, etc.)
 4.  Connecting statistical signatures back to mechanism
 
 All examples use synthetic or public data to develop transferable
