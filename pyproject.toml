@@ -11,7 +11,7 @@ requires-python = ">=3.10"
 dependencies = ["numpy"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "ruff>=0.6"]
+dev = ["pytest>=7", "ruff==0.15.4"]
 notebook = ["matplotlib", "jupyter", "ipykernel"]
 
 [tool.setuptools]
