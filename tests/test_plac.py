@@ -5,11 +5,13 @@ import pytest
 
 # Allow running from repo root or standalone
 try:
-    from tibs.plac import ThermodynamicPromoter, PLac, GillespiePLac
+    from tibs.plac import GillespiePLac, PLac, ThermodynamicPromoter
 except ImportError:
-    import sys, pathlib
+    import pathlib
+    import sys
+
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
-    from tibs.plac import ThermodynamicPromoter, PLac, GillespiePLac
+    from tibs.plac import GillespiePLac, PLac, ThermodynamicPromoter
 
 
 # ── ThermodynamicPromoter ─────────────────────────────────────────────────

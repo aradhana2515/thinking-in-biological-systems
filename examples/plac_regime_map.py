@@ -11,23 +11,25 @@ Run:
     python examples/plac_regime_map.py
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.gridspec import GridSpec
 
 # If tibs is installed, import directly; otherwise load from local path.
 try:
     from tibs.plac import (
-        ThermodynamicPromoter,
         GillespiePLac,
+        ThermodynamicPromoter,
         plot_dose_response,
     )
 except ImportError:
-    import sys, pathlib
+    import pathlib
+    import sys
+
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
     from tibs.plac import (
-        ThermodynamicPromoter,
         GillespiePLac,
+        ThermodynamicPromoter,
         plot_dose_response,
     )
 

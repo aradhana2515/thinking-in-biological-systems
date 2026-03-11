@@ -27,9 +27,9 @@ Typical usage
 
 from __future__ import annotations
 
-import numpy as np
 from dataclasses import dataclass
-from typing import Callable
+
+import numpy as np
 
 # ---------------------------------------------------------------------------
 # Attempt to import the repo's base class; fall back to a minimal shim so
@@ -397,7 +397,7 @@ def plot_dose_response(
     cmap = plt.cm.viridis
     colors = cmap(np.linspace(0.15, 0.85, len(repressor_counts)))
 
-    for R, c in zip(repressor_counts, colors):
+    for R, c in zip(repressor_counts, colors, strict=True):
         tp_r = ThermodynamicPromoter(R_total=R)
         iptg, fc = tp_r.dose_response()
         ax.semilogx(iptg * 1e6, fc, color=c, lw=2, label=f"R = {R}")
@@ -436,7 +436,7 @@ def plot_stochastic_traces(
         fig = ax.figure
 
     label = ["mRNA", "protein"][species]
-    for i, (t, X) in enumerate(traces[:n_show]):
+    for _i, (t, X) in enumerate(traces[:n_show]):
         ax.step(t, X[:, species], where="post", lw=0.6, alpha=0.5)
 
     ax.set(
