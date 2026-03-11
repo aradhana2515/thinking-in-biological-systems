@@ -49,8 +49,11 @@ def main():
 
     ax1 = fig.add_subplot(gs[0, 0])
     im = ax1.pcolormesh(
-        iptg_vals * 1e6, np.arange(len(R_vals)),
-        fc_map, cmap="viridis", shading="auto",
+        iptg_vals * 1e6,
+        np.arange(len(R_vals)),
+        fc_map,
+        cmap="viridis",
+        shading="auto",
     )
     ax1.set_xscale("log")
     ax1.set_yticks(np.arange(len(R_vals)))
@@ -68,7 +71,13 @@ def main():
     iptg_levels = {"low (0.1 µM)": 1e-7, "mid (10 µM)": 1e-5, "high (1 mM)": 1e-3}
 
     for idx, (label, iptg) in enumerate(iptg_levels.items()):
-        ax = fig.add_subplot(gs[1, 0]) if idx == 0 else fig.add_subplot(gs[1, 1]) if idx == 2 else None
+        ax = (
+            fig.add_subplot(gs[1, 0])
+            if idx == 0
+            else fig.add_subplot(gs[1, 1])
+            if idx == 2
+            else None
+        )
         if idx == 1:
             # middle panel spans center — just use gs[1,0] and gs[1,1]
             continue

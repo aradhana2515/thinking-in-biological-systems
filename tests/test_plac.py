@@ -16,8 +16,8 @@ except ImportError:
 
 # ── ThermodynamicPromoter ─────────────────────────────────────────────────
 
-class TestThermodynamicPromoter:
 
+class TestThermodynamicPromoter:
     def test_fold_change_monotonic_with_iptg(self):
         """More IPTG → higher fold-change (less repression)."""
         tp = ThermodynamicPromoter(R_total=10)
@@ -58,8 +58,8 @@ class TestThermodynamicPromoter:
 
 # ── PLac ODE model ────────────────────────────────────────────────────────
 
-class TestPLac:
 
+class TestPLac:
     def test_simulate_returns_correct_shape(self):
         m = PLac(IPTG=1e-3)
         res = m.simulate(t_span=(0, 50), dt=0.1)
@@ -86,8 +86,8 @@ class TestPLac:
 
 # ── GillespiePLac ─────────────────────────────────────────────────────────
 
-class TestGillespiePLac:
 
+class TestGillespiePLac:
     def test_run_returns_valid_arrays(self):
         g = GillespiePLac(IPTG=1e-3, seed=42)
         t, X = g.run(t_end=50.0)

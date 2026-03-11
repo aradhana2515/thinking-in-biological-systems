@@ -70,9 +70,7 @@ except ImportError:
             import matplotlib.pyplot as plt
 
             fig, ax = plt.subplots(figsize=(8, 4))
-            labels = getattr(self, "state_labels", None) or [
-                f"x{i}" for i in range(res.x.shape[1])
-            ]
+            labels = getattr(self, "state_labels", None) or [f"x{i}" for i in range(res.x.shape[1])]
             for i, lbl in enumerate(labels):
                 ax.plot(res.t, res.x[:, i], label=lbl, linewidth=1.5)
             ax.set(xlabel="time (min)", ylabel="molecules / cell")
@@ -122,17 +120,17 @@ class ThermodynamicPromoter:
     """
 
     # --- copy numbers ---
-    R_total: int = 10          # LacI tetramers per cell
-    P_rnap: int = 1000         # RNAP molecules per cell
-    N_NS: float = 4.6e6        # non-specific binding sites on genome
+    R_total: int = 10  # LacI tetramers per cell
+    P_rnap: int = 1000  # RNAP molecules per cell
+    N_NS: float = 4.6e6  # non-specific binding sites on genome
 
     # --- binding energies (units of kBT, negative = favourable) ---
-    dE_rnap: float = -10.0     # RNAP → promoter
-    dE_R: float = -15.3        # LacI → operator (O1, strongest natural operator)
+    dE_rnap: float = -10.0  # RNAP → promoter
+    dE_R: float = -15.3  # LacI → operator (O1, strongest natural operator)
 
     # --- IPTG–LacI interaction ---
-    Kd_IPTG: float = 0.53e-6   # dissociation constant (M)
-    n_iptg: int = 2            # inducer binding sites per functional dimer
+    Kd_IPTG: float = 0.53e-6  # dissociation constant (M)
+    n_iptg: int = 2  # inducer binding sites per functional dimer
 
     # -----------------------------------------------------------------
     def active_repressors(self, IPTG: float | np.ndarray) -> float | np.ndarray:
@@ -218,11 +216,11 @@ class PLac(ODEModel):
         fc = float(tp.fold_change(self.IPTG))
 
         defaults = dict(
-            alpha_m=0.5,       # max transcription rate (mRNA / min)
-            fc=fc,             # fold-change from stat-mech model [0, 1]
-            gamma_m=0.1,       # mRNA degradation rate (1/min), half-life ~7 min
-            beta_p=0.04,       # translation rate (protein / mRNA / min)
-            gamma_p=0.005,     # protein dilution+degradation (1/min)
+            alpha_m=0.5,  # max transcription rate (mRNA / min)
+            fc=fc,  # fold-change from stat-mech model [0, 1]
+            gamma_m=0.1,  # mRNA degradation rate (1/min), half-life ~7 min
+            beta_p=0.04,  # translation rate (protein / mRNA / min)
+            gamma_p=0.005,  # protein dilution+degradation (1/min)
         )
         defaults.update(self._overrides)
         return defaults
@@ -265,10 +263,10 @@ class GillespiePLac:
     IPTG: float = 1e-3
 
     # kinetic rates
-    k_tx: float = 0.5          # max transcription rate (events / min)
-    gamma_m: float = 0.1       # mRNA decay (1 / min)
-    k_tl: float = 0.04         # translation per mRNA (events / min)
-    gamma_p: float = 0.005     # protein decay + dilution (1 / min)
+    k_tx: float = 0.5  # max transcription rate (events / min)
+    gamma_m: float = 0.1  # mRNA decay (1 / min)
+    k_tl: float = 0.04  # translation per mRNA (events / min)
+    gamma_p: float = 0.005  # protein decay + dilution (1 / min)
 
     # repressor parameters (forwarded to ThermodynamicPromoter)
     R_total: int = 10
@@ -283,18 +281,23 @@ class GillespiePLac:
 
     def propensities(self, state: np.ndarray, fc: float) -> np.ndarray:
         mRNA, protein = state
-        return np.array([
-            self.k_tx * fc,             # transcription
-            self.gamma_m * mRNA,        # mRNA decay
-            self.k_tl * mRNA,           # translation
-            self.gamma_p * protein,     # protein decay
-        ])
+        return np.array(
+            [
+                self.k_tx * fc,  # transcription
+                self.gamma_m * mRNA,  # mRNA decay
+                self.k_tl * mRNA,  # translation
+                self.gamma_p * protein,  # protein decay
+            ]
+        )
 
     # stoichiometry matrix: rows = species, cols = reactions
-    S = np.array([
-        [+1, -1,  0,  0],   # mRNA
-        [ 0,  0, +1, -1],   # protein
-    ], dtype=int)
+    S = np.array(
+        [
+            [+1, -1, 0, 0],  # mRNA
+            [0, 0, +1, -1],  # protein
+        ],
+        dtype=int,
+    )
 
     def run(
         self,
@@ -373,6 +376,7 @@ class GillespiePLac:
 # ═══════════════════════════════════════════════════════════════════════════
 # 4. CONVENIENCE PLOTTING
 # ═══════════════════════════════════════════════════════════════════════════
+
 
 def plot_dose_response(
     tp: ThermodynamicPromoter | None = None,
@@ -481,13 +485,11 @@ def plot_noise_vs_induction(
         axes = [ax, ax.twinx()]
 
     axes[0].semilogx(iptg_values * 1e6, means, "o-", color="#2563eb", lw=2)
-    axes[0].set(xlabel="[IPTG] (µM)", ylabel="mean protein / cell",
-                title="mean expression vs IPTG")
+    axes[0].set(xlabel="[IPTG] (µM)", ylabel="mean protein / cell", title="mean expression vs IPTG")
     axes[0].grid(True, alpha=0.3)
 
     axes[1].semilogx(iptg_values * 1e6, cvs, "s-", color="#dc2626", lw=2)
-    axes[1].set(xlabel="[IPTG] (µM)", ylabel="CV (σ / μ)",
-                title="expression noise vs IPTG")
+    axes[1].set(xlabel="[IPTG] (µM)", ylabel="CV (σ / μ)", title="expression noise vs IPTG")
     axes[1].grid(True, alpha=0.3)
 
     fig.tight_layout()
