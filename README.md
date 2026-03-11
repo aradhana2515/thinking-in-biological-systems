@@ -121,10 +121,10 @@ regime transitions.
 
 Trajectories are converted into interpretable descriptors such as:
 
--   Amplitude\
--   Frequency\
--   Stability metrics\
--   Peak statistics\
+-   Amplitude
+-   Frequency
+-   Stability metrics
+-   Peak statistics
 -   Convergence behavior
 
 ### Interpretable Machine Learning
@@ -140,10 +140,10 @@ decisions.
 
 ## Intended Applications
 
--   Systems biology\
--   Neuroscience dynamics\
--   Evolutionary modeling\
--   Protein engineering feedback systems\
+-   Systems biology
+-   Neuroscience dynamics
+-   Evolutionary modeling
+-   Protein engineering feedback systems
 -   Closed-loop automated experimentation
 
 The framework is designed to be extensible to real experimental
@@ -170,6 +170,6 @@ pytest
 
 ## Author
 
-Aradhana\
-PhD Student, Biomedical Engineering\
+Aradhana
+PhD Student, Biomedical Engineering
 Duke University
