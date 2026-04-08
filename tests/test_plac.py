@@ -65,7 +65,7 @@ class TestPLac:
         t_span = (0, 50)
         dt = 0.1
         res = m.simulate(t_span=t_span, dt=dt)
-        n_steps = int((t_span[1] - t_span[0]) / dt) + 1   # inclusive of both endpoints
+        n_steps = int((t_span[1] - t_span[0]) / dt) + 1  # inclusive of both endpoints
         assert res.x.shape == (n_steps, 2)
 
     def test_induced_reaches_steady_state(self):
